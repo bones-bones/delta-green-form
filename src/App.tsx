@@ -1,12 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import styled from '@emotion/styled';
+import { StatisticalData } from './statistical-data';
 
 function App() {
     return (
         <Page className="App">
-            <Title />
+            <Title>DG Statsheet</Title>
             <ProfessionalData />
             <StatisticalData />
             <PsychologicalData />
@@ -17,13 +17,27 @@ function App() {
 
 export default App;
 
-const Page = styled.div({ display: 'grid',
-gridTemplateColumns:'',
-gridTemplateRows:''
- });
+const Page = styled.div({
+    display: 'grid',
+    gridTemplateColumns: '50vw 50vw',
+    gridTemplateRows: '7vh 15vh 32vh 46vh'
+});
 
-const Title = styled.div({ gridColumn: 1, gridRow: 1 });
-const ProfessionalData = styled.div({ gridColumn: 1, gridRow: 2 });
-const StatisticalData = styled.div({ gridColumn: 1, gridRow: 3 });
-const PsychologicalData = styled.div({ gridColumn: 1, gridRow: 3 });
-const ApplicableSkillSets = styled.div({ gridColumn: 1, gridRow: 4 });
+const Title = styled.div({
+    gridColumnStart: 1,
+    gridColumnEnd: 3,
+    gridRow: 1,
+    backgroundColor: 'black',
+    color: 'white'
+});
+const ProfessionalData = styled.div({
+    gridColumnStart: 1,
+    gridColumnEnd: 3,
+    gridRow: 2,
+    backgroundColor: 'red'
+});
+const PsychologicalData = styled.div({ gridColumn: 2, gridRow: 3, backgroundColor: 'green' });
+const ApplicableSkillSets = styled.div({
+    gridColumnStart: 1,
+    gridColumnEnd: 3, gridRow: 4, backgroundColor: 'yellow'
+});
