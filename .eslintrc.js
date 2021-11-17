@@ -32,7 +32,5 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 0,
         'no-cond-assign': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
-        '@typescript-eslint/no-non-null-assertion': 0,
-        '@typescript-eslint/no-non-null-asserted-optional-chain': 0, // Look i know what i'm doing, honest
     },
 };
