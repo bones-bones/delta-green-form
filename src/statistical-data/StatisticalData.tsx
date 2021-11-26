@@ -4,7 +4,9 @@ import { StatTable } from './StatTable';
 
 export const StatisticalData = () => {
 
-    return <OuterBox><StatTable /></OuterBox>
+    return <OuterBox>
+        <StatTable />
+        </OuterBox>
 }
 
 const OuterBox = styled.div({

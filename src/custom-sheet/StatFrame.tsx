@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions, selectStats } from '../stats';
 import { getDistinguishingFeatures } from './getDistinguishingFeatures';
+import { NumericInput } from './numeric-input';
 import { StatDescriptions, StatTypes } from './types';
 
 export const StatFrame = () => {
@@ -49,7 +50,7 @@ export const StatFrame = () => {
                             <StatRow key={entry}>
                                 <td>{`${name} (${abbreviation})`}</td>
                                 <td>
-                                    <StatInput
+                                    <NumericInput
                                         type="text"
                                         maxLength={2}
                                         onBlur={onChange(entry)}
@@ -85,19 +86,6 @@ export const StatFrame = () => {
         </>
     );
 };
-const StatInput = styled.input({
-    backgroundColor: 'green',
-    boxSizing: 'border-box',
-    ':valid': {
-        backgroundColor: 'transparent',
-        border: '1px solid transparent',
-    },
-    color: 'white',
-    fontSize: '16px',
-    border: '1px solid green',
-    borderRadius: '5px',
-    textAlign: 'center',
-});
 
 const StatRow = styled.tr({
     color: 'white',

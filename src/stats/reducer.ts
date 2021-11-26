@@ -14,6 +14,7 @@ const initState: {
         sanity: DerivedStat;
         breakingPoint: DerivedStat;
     };
+    bonds:Bond[]
 } = {
     stats: {
         strength: { value: 0 },
@@ -29,12 +30,18 @@ const initState: {
         sanity: { max: 0, current: 0 },
         breakingPoint: { max: 0, current: 0 },
     },
+    bonds:[]
 };
 
 type DerivedStat = {
     max: number;
     current: number;
 };
+type Bond={
+    name:string
+    score:number
+    history?:string
+}
 
 export const { actions, reducer } = createSlice({
     name: 'battle',
@@ -61,5 +68,8 @@ export const { actions, reducer } = createSlice({
                 breakingPoint: { max: breakingPoint, current: breakingPoint },
             };
         },
+        loadBonds:(state, {payload}:PayloadAction<Bond[]>)=>{
+            state.bonds=payload
+        }
     },
 });

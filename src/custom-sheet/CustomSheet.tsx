@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import React, { useState } from 'react';
+import { BondsFrame } from './BondsFrame';
 import { DerivedFrame } from './DerivedFrame';
 import { Placard } from './Placard';
 import { StatFrame } from './StatFrame';
@@ -30,6 +31,7 @@ export const CustomSheet = () => {
                 <Frame>
                     <StatFrame />
                     <DerivedFrame />
+                    <BondsFrame />
                 </Frame>
             </Panel>
         </Background>
