@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectDerivedStats } from '../stats';
 

@@ -1,9 +1,5 @@
 import styled from '@emotion/styled';
 
-import React, { useState } from 'react';
-
-
-
 export const NumericInput = styled.input({
     backgroundColor: 'green',
     boxSizing: 'border-box',

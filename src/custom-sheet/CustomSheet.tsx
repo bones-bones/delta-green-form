@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { BondsFrame } from './BondsFrame';
 import { DerivedFrame } from './DerivedFrame';
+import { MentalDisordersFrame } from './MentalDisordersFrame';
 import { Placard } from './Placard';
 import { StatFrame } from './StatFrame';
 import { Tab } from './Tab';
@@ -32,6 +33,7 @@ export const CustomSheet = () => {
                     <StatFrame />
                     <DerivedFrame />
                     <BondsFrame />
+                    <MentalDisordersFrame />
                 </Frame>
             </Panel>
         </Background>
@@ -69,4 +71,15 @@ const Frame = styled.div({
     borderBottom: '3px solid green',
     height: '94%',
     width: '100%',
+    overflowY: 'auto',
+    '::-webkit-scrollbar': {
+        border: '1px solid white',
+        color:'white'
+    },
+    '::-webkit-scrollbar-thumb': {
+        '-webkit-appearance': 'none',
+        width: '15px',
+        height: '15px',
+       backgroundColor:'white'
+    },
 });
