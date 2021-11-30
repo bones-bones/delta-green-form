@@ -44,7 +44,7 @@ type Bond={
 }
 
 export const { actions, reducer } = createSlice({
-    name: 'battle',
+    name: 'stats',
     initialState: initState,
     reducers: {
         loadInitial: (
@@ -52,21 +52,8 @@ export const { actions, reducer } = createSlice({
             { payload }: PayloadAction<typeof initState['stats']>
         ) => {
             state.stats = { ...payload };
-            const hp = Math.ceil(
-                (payload.strength.value + payload.constitution.value) / 2
-            );
-            const wp = payload.will.value;
-            const san = payload.will.value * 5;
-            const breakingPoint = san - payload.will.value;
-            state.derivedStats = {
-                hp: {
-                    max: hp,
-                    current: hp,
-                },
-                wp: { max: wp, current: wp },
-                sanity: { max: san, current: san },
-                breakingPoint: { max: breakingPoint, current: breakingPoint },
-            };
+            
+         
         },
         loadBonds:(state, {payload}:PayloadAction<Bond[]>)=>{
             state.bonds=payload

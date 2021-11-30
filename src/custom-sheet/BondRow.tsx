@@ -29,11 +29,6 @@ export const BondRow = ({
             historyRef.current?.value &&
             numericRef.current?.value
         ) {
-            console.log({
-                name: nameRef.current.value,
-                score: parseInt(numericRef.current.value || '0'),
-                history: historyRef.current.value,
-            })
             onChange({
                 name: nameRef.current.value,
                 score: parseInt(numericRef.current.value || '0'),

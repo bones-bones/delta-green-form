@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectDerivedStats } from '../stats';
+import { getPoints } from '../points';
+
 
 export const DerivedFrame = () => {
-    const derivedAttributes = useSelector(selectDerivedStats);
-
+    const derivedAttributes = useSelector(getPoints);
     return (
         <Table>
             <thead>
@@ -33,13 +33,13 @@ export const DerivedFrame = () => {
                 <tr>
                     <td>Sanity Points</td>
                     <td>
-                        {derivedAttributes.sanity.current}/
-                        {derivedAttributes.sanity.max}
+                        {derivedAttributes.sp.current}/
+                        {derivedAttributes.sp.max}
                     </td>
                 </tr>
                 <tr>
                     <td>Breaking Point</td>
-                    <td>{derivedAttributes.breakingPoint.max}</td>
+                    <td>{derivedAttributes.bp}</td>
                 </tr>
             </tbody>
         </Table>
