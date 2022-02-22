@@ -1,22 +1,35 @@
 import styled from '@emotion/styled';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from './reducer';
 import { selectBonds } from './selectors';
+import { Bond } from './types';
 
 export const BondsFrame = () => {
     const skills = useSelector(selectBonds);
     const dispatch = useDispatch();
+    const [newBond, setNewBond] = useState<Partial<Bond> | undefined>(
+        undefined
+    );
+
+    const save = () => {
+        console.log(newBond);
+        if (newBond && isValidBond(newBond)) {
+            dispatch(actions.addBond(newBond as Bond));
+            setNewBond(undefined);
+        }
+    };
 
     return (
         <Table>
             {Object.values(skills).map((entry) => {
                 return (
                     <Entry key={entry.name}>
-                        <Name stillInContact={entry.value !== 0}>
-                            {entry.name}
-                        </Name>
+                        <Name
+                            stillInContact={entry.value !== 0}
+                            value={entry.name}
+                        />
                         <Description>{entry.notes}</Description>
                         <NumberValue
                             value={entry.value}
@@ -33,8 +46,44 @@ export const BondsFrame = () => {
                     </Entry>
                 );
             })}
+            {newBond && (
+                <Entry key={'blank'}>
+                    <Name
+                        stillInContact={true}
+                        onBlur={save}
+                        onChange={({ target: { value } }) => {
+                            setNewBond({ ...newBond, name: value });
+                        }}
+                    />
+                    <Description
+                        onBlur={save}
+                        onChange={({ target: { value } }) => {
+                            setNewBond({ ...newBond, notes: value });
+                        }}
+                    />
+                    <NumberValue
+                        onBlur={save}
+                        onChange={({ target: { value } }) => {
+                            setNewBond({
+                                ...newBond,
+                                value:
+                                    value != undefined
+                                        ? parseInt(value || '0')
+                                        : value,
+                            });
+                        }}
+                    />
+                </Entry>
+            )}
+            <AddRow onClick={() => setNewBond({})}>Add Row</AddRow>
         </Table>
     );
+};
+
+const AddRow = styled.button();
+
+const isValidBond = (bond: Partial<Bond>) => {
+    return bond.name && bond.value;
 };
 
 const NumberValue = styled.input({
@@ -86,9 +135,23 @@ const Entry = styled.div({
     backgroundColor: '#002200',
 });
 
-const Name = styled.span(({ stillInContact }: { stillInContact: boolean }) => ({
-    fontWeight: 'bold',
-    display: 'flex',
-    ...(!stillInContact && { textDecoration: 'line-through' }),
-    alignItems: 'center',
-}));
+const Name = styled.input(
+    ({ stillInContact }: { stillInContact: boolean }) => ({
+        ...(!stillInContact && { textDecoration: 'line-through' }),
+        fontWeight: 'bold',
+        boxSizing: 'border-box',
+        backgroundColor: '#002200',
+        display: 'flex',
+        alignItems: 'center',
+        color: 'white',
+        fontSize: '16px',
+        border: 'none',
+        borderRadius: '5px',
+        textAlign: 'center',
+        ':focus': {
+            backgroundColor: 'green',
+            border: '1px solid green',
+            overflow: 'auto',
+        },
+    })
+);

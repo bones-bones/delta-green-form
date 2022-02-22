@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-type Bond = {
-    value: number;
-    notes?: string;
-    name: string;
-};
+import { Bond } from './types';
 
 const initialState: Bond[] = [
     { name: 'Joe', value: 4, notes: 'he okay' },
