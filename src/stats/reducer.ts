@@ -61,5 +61,11 @@ export const { actions, reducer } = createSlice({
                 breakingPoint: { max: breakingPoint, current: breakingPoint },
             };
         },
+        setHp: (state, { payload }: PayloadAction<number>) => {
+            state.derivedStats.hp.current = payload;
+        },
+        setWp: (state, { payload }: PayloadAction<number>) => {
+            state.derivedStats.wp.current = payload;
+        },
     },
 });

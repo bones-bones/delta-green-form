@@ -11,7 +11,7 @@ export const DerivedFrame = () => {
         <Table>
             <thead>
                 <tr>
-                    <th>Devired Attributes</th>
+                    <th>Derived Attributes</th>
                     <th>Values</th>
                 </tr>
             </thead>
