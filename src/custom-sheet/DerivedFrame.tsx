@@ -4,7 +4,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { getPoints } from '../points';
 
-
 export const DerivedFrame = () => {
     const derivedAttributes = useSelector(getPoints);
     return (

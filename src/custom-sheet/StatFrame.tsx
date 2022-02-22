@@ -20,7 +20,7 @@ export const StatFrame = () => {
                 <thead>
                     <StatRow>
                         <th>Stat</th> <th>Score</th> <th>Test</th>
-                        <th>Description</th>
+                        <th>Desc.</th>
                     </StatRow>
                 </thead>
                 <tbody>
