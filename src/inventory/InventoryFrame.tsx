@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AddRowButton, SectionHeader } from '../components';
 import { actions } from './reducer';
 import { selectInventory } from './selectors';
 import { Item } from './types';
@@ -19,59 +20,83 @@ export const InventoryFrame = () => {
     };
 
     return (
-        <ItemList>
-            {Object.values(items).map((entry) => {
-                return (
-                    <Entry key={entry.name}>
-                        <Name type="text" value={entry.name} />
-                        <Description type="text" value={entry.description} />
-                        <NumberValue
-                            value={entry.count}
-                            onChange={({ target: { value } }) => {
-                                //dispatch();
-                            }}
-                        />
+        <>
+            <SectionHeader>Inventory</SectionHeader>
+            <ItemTable>
+                <HeaderRow>
+                    <TableHeadItem>Name</TableHeadItem>
+                    <TableHeadItem>Description</TableHeadItem>
+                    <TableHeadItem>Count</TableHeadItem>
+                </HeaderRow>
+                {Object.values(items).map((entry) => {
+                    return (
+                        <Entry key={entry.name}>
+                            <Cell>
+                                <Name type="text" value={entry.name} />
+                            </Cell>
+                            <Cell>
+                                <Description
+                                    type="text"
+                                    value={entry.description}
+                                />
+                            </Cell>
+                            <Cell>
+                                <NumberValue
+                                    value={entry.count}
+                                    onChange={({ target: { value } }) => {
+                                        //dispatch();
+                                    }}
+                                />
+                            </Cell>
+                        </Entry>
+                    );
+                })}
+                {newRow && (
+                    <Entry key={'blank'}>
+                        <Cell>
+                            <Name
+                                onChange={({ target: { value } }) => {
+                                    //dispatch();
+                                    setNewRow({ ...newRow, name: value });
+                                }}
+                                onBlur={save}
+                            />
+                        </Cell>
+                        <Cell>
+                            <Description
+                                type="text"
+                                onChange={({ target: { value } }) => {
+                                    //dispatch();
+                                    setNewRow({
+                                        ...newRow,
+                                        description: value,
+                                    });
+                                }}
+                                onBlur={save}
+                            />
+                        </Cell>
+                        <Cell>
+                            <NumberValue
+                                onChange={({ target: { value } }) => {
+                                    if (value) {
+                                        setNewRow({
+                                            ...newRow,
+                                            count: parseInt(value || '0'),
+                                        });
+                                    }
+                                }}
+                                onBlur={save}
+                            />
+                        </Cell>
                     </Entry>
-                );
-            })}
-            {newRow && (
-                <Entry key={'blank'}>
-                    <Name
-                        onChange={({ target: { value } }) => {
-                            //dispatch();
-                            setNewRow({ ...newRow, name: value });
-                        }}
-                        onBlur={save}
-                    ></Name>
-                    <Description
-                        type="text"
-                        onChange={({ target: { value } }) => {
-                            //dispatch();
-                            setNewRow({ ...newRow, description: value });
-                        }}
-                        onBlur={save}
-                    />
-                    <NumberValue
-                        onChange={({ target: { value } }) => {
-                            if (value) {
-                                setNewRow({
-                                    ...newRow,
-                                    count: parseInt(value || '0'),
-                                });
-                            }
-                        }}
-                        onBlur={save}
-                    />
-                </Entry>
-            )}
-            <AddRow
+                )}
+            </ItemTable>
+            <AddRowButton
                 onClick={() => {
                     setNewRow({ name: '', description: '' });
                 }}
-            >
-                Add row
-            </AddRow>
-        </ItemList>
+            />
+        </>
     );
 };
 
@@ -79,25 +104,28 @@ const isValidForSubmit = (item: Item) => {
     return item.name && item.description;
 };
 
-const AddRow = styled.button();
+const TableHeadItem = styled.th({ textAlign: 'left' });
+
+const Cell = styled.td({ borderTop: '1px solid white' });
+
+const HeaderRow = styled.tr({ height: '15px' });
 
 const NumberValue = styled.input({
-    backgroundColor: 'green',
-    boxSizing: 'border-box',
-    ':valid': {
-        backgroundColor: 'transparent',
-        border: '1px solid transparent',
+    ':focus': {
+        backgroundColor: 'green',
     },
+    boxSizing: 'border-box',
+    backgroundColor: '#002200',
     color: 'white',
     fontSize: '16px',
-    border: '1px solid green',
+    border: '1px solid white',
     borderRadius: '5px',
     textAlign: 'center',
     fontWeight: 'bold',
     width: '30px',
 });
 
-const Description = styled.input({
+const Description = styled.input(({ value }) => ({
     boxSizing: 'border-box',
     backgroundColor: '#002200',
     ':focus': {
@@ -107,45 +135,40 @@ const Description = styled.input({
     },
     color: 'white',
     fontSize: '16px',
-    border: 'none',
+    ...(!value ? { border: '1px solid white' } : { border: 'none' }),
+
     borderRadius: '5px',
     textAlign: 'center',
     width: '150px',
     overflow: 'hidden',
-});
+}));
 
-const ItemList = styled.ul({
+const ItemTable = styled.table({
     color: 'white',
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'column',
-    height: '200px',
     width: '100%',
-    listStyleType: 'none',
     margin: 0,
     padding: 0,
 });
 
-const Entry = styled.li({
-    display: 'flex',
+const Entry = styled.tr({
     border: '1px solid green',
     backgroundColor: '#002200',
+    height: '30px',
 });
 
-const Name = styled.input({
+const Name = styled.input(({ value }) => ({
     fontWeight: 'bold',
     boxSizing: 'border-box',
     backgroundColor: '#002200',
-    display: 'flex',
     alignItems: 'center',
     color: 'white',
     fontSize: '16px',
-    border: 'none',
     borderRadius: '5px',
     textAlign: 'center',
+    ...(!value ? { border: '1px solid white' } : { border: 'none' }),
     ':focus': {
         backgroundColor: 'green',
         border: '1px solid green',
         overflow: 'auto',
     },
-});
+}));

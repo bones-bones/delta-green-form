@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { NumericInput } from '../custom-sheet/numeric-input';
+import { skillsSetup } from './constants';
 import { actions } from './reducer';
 import { selectSkills } from './selectors';
 
@@ -24,7 +26,18 @@ export const SkillsFrame = () => {
                             }}
                         />
                         <SkillName> {entry.name}</SkillName>
-                        {entry.value}
+                        <NumericInput
+                            type="number"
+                            value={entry.value}
+                            onChange={({ target: { value } }) =>
+                                dispatch(
+                                    actions.setSkill({
+                                        name: entry.name as keyof typeof skillsSetup,
+                                        value: parseInt(value),
+                                    })
+                                )
+                            }
+                        />
                     </SkillEntry>
                 );
             })}
@@ -37,7 +50,7 @@ const Table = styled.div({
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'column',
-    height: '200px',
+    height: '250px',
 });
 
 const SkillEntry = styled.div({
