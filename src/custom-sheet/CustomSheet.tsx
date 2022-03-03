@@ -9,13 +9,13 @@ import { Placard } from './Placard';
 import { StatFrame } from './StatFrame';
 import { Tab } from './Tab';
 
-const tabs = ['one', 'two', 'three'];
+const tabs = ['Stats', 'Bonds', 'Inventory'];
 
 export const CustomSheet = () => {
     const [activeTab, setActiveTab] = useState(0);
     return (
         <Background>
-            <Placard></Placard>
+            <Placard />
             <Panel>
                 <Tabs>
                     {tabs.map((entry, i) => (
@@ -30,17 +30,35 @@ export const CustomSheet = () => {
                         </Tab>
                     ))}
                 </Tabs>
-                <Frame>
-                    <StatFrame />
-                    <DerivedFrame />
-                    <SkillsFrame />
-                    <BondsFrame />
-                    <InventoryFrame />
-                </Frame>
+                <Frame>{renderTab(activeTab)}</Frame>
             </Panel>
         </Background>
     );
 };
+
+const renderTab = (tabId: number) => {
+    switch (tabId) {
+        case 2: {
+            return <InventoryFrame />;
+        }
+        case 1: {
+            return <BondsFrame />;
+        }
+        case 0: {
+            return (
+                <>
+                    <TopFrame>
+                        <StatFrame />
+                        <DerivedFrame />
+                    </TopFrame>
+                    <SkillsFrame />
+                </>
+            );
+        }
+    }
+};
+
+const TopFrame = styled.div({ display: 'flex' });
 
 const Background = styled.div({
     backgroundColor: '#002200',

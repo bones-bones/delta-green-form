@@ -28,23 +28,56 @@ export const InventoryFrame = () => {
                     <TableHeadItem>Description</TableHeadItem>
                     <TableHeadItem>Count</TableHeadItem>
                 </HeaderRow>
-                {Object.values(items).map((entry) => {
+                {Object.values(items).map((entry, index) => {
                     return (
                         <Entry key={entry.name}>
                             <Cell>
-                                <Name type="text" value={entry.name} />
+                                <Name
+                                    type="text"
+                                    value={entry.name}
+                                    onChange={({ target: { value } }) => {
+                                        dispatch(
+                                            actions.updateItem({
+                                                index,
+                                                item: {
+                                                    ...entry,
+                                                    name: value,
+                                                },
+                                            })
+                                        );
+                                    }}
+                                />
                             </Cell>
                             <Cell>
                                 <Description
                                     type="text"
                                     value={entry.description}
+                                    onChange={({ target: { value } }) => {
+                                        dispatch(
+                                            actions.updateItem({
+                                                index,
+                                                item: {
+                                                    ...entry,
+                                                    description: value,
+                                                },
+                                            })
+                                        );
+                                    }}
                                 />
                             </Cell>
                             <Cell>
                                 <NumberValue
                                     value={entry.count}
                                     onChange={({ target: { value } }) => {
-                                        //dispatch();
+                                        dispatch(
+                                            actions.updateItem({
+                                                index,
+                                                item: {
+                                                    ...entry,
+                                                    count: parseInt(value),
+                                                },
+                                            })
+                                        );
                                     }}
                                 />
                             </Cell>

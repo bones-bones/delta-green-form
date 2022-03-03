@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { SectionHeader } from '../components';
 import { NumericInput } from '../custom-sheet/numeric-input';
 import { skillsSetup } from './constants';
 import { actions } from './reducer';
@@ -12,36 +13,39 @@ export const SkillsFrame = () => {
     const dispatch = useDispatch();
 
     return (
-        <Table>
-            {Object.values(skills).map((entry) => {
-                return (
-                    <SkillEntry key={entry.name}>
-                        <FailedBox
-                            type="checkbox"
-                            checked={entry.failedInSession}
-                            onChange={() => {
-                                dispatch(
-                                    actions.toggleSkill(entry.name as any)
-                                );
-                            }}
-                        />
-                        <SkillName> {entry.name}</SkillName>
-                        <NumericInput
-                            type="number"
-                            value={entry.value}
-                            onChange={({ target: { value } }) =>
-                                dispatch(
-                                    actions.setSkill({
-                                        name: entry.name as keyof typeof skillsSetup,
-                                        value: parseInt(value),
-                                    })
-                                )
-                            }
-                        />
-                    </SkillEntry>
-                );
-            })}
-        </Table>
+        <>
+            <SectionHeader>Skills</SectionHeader>
+            <Table>
+                {Object.values(skills).map((entry) => {
+                    return (
+                        <SkillEntry key={entry.name}>
+                            <FailedBox
+                                type="checkbox"
+                                checked={entry.failedInSession}
+                                onChange={() => {
+                                    dispatch(
+                                        actions.toggleSkill(entry.name as any)
+                                    );
+                                }}
+                            />
+                            <SkillName> {entry.name}</SkillName>
+                            <NumericInput
+                                type="number"
+                                value={entry.value}
+                                onChange={({ target: { value } }) =>
+                                    dispatch(
+                                        actions.setSkill({
+                                            name: entry.name as keyof typeof skillsSetup,
+                                            value: parseInt(value),
+                                        })
+                                    )
+                                }
+                            />
+                        </SkillEntry>
+                    );
+                })}
+            </Table>
+        </>
     );
 };
 

@@ -3,6 +3,7 @@ import { ChangeEvent } from 'hoist-non-react-statics/node_modules/@types/react';
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { SectionHeader } from '../components';
 import { actions, selectStats } from '../stats';
 import { getDistinguishingFeatures } from './getDistinguishingFeatures';
 import { NumericInput } from './numeric-input';
@@ -15,11 +16,14 @@ export const StatFrame = () => {
     const [stats, setStats] = useState(initStats);
 
     return (
-        <>
+        <div>
+            <SectionHeader>Stats</SectionHeader>
             <table>
                 <thead>
                     <StatRow>
-                        <th>Stat</th> <th>Score</th> <th>Test</th>
+                        <th>Stat</th>
+                        <th>Score</th>
+                        <th>Test</th>
                         <th>Desc.</th>
                     </StatRow>
                 </thead>
@@ -83,7 +87,7 @@ export const StatFrame = () => {
             >
                 Confirm
             </button>
-        </>
+        </div>
     );
 };
 

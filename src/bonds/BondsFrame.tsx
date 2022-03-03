@@ -35,22 +35,40 @@ export const BondsFrame = () => {
                         <Entry key={entry.name}>
                             <Cell>
                                 <Name
-                                    stillInContact={entry.value !== 0}
+                                    stillInContact={entry.value > 0}
                                     value={entry.name}
+                                    onChange={({ target: { value } }) => {
+                                        dispatch(
+                                            actions.modifyBond({
+                                                ...entry,
+                                                name: value,
+                                            })
+                                        );
+                                    }}
                                 />
                             </Cell>
                             <Cell>
-                                <Description value={entry.notes}></Description>
+                                <Description
+                                    value={entry.notes}
+                                    onChange={({ target: { value } }) => {
+                                        dispatch(
+                                            actions.modifyBond({
+                                                ...entry,
+                                                notes: value,
+                                            })
+                                        );
+                                    }}
+                                ></Description>
                             </Cell>
                             <Cell>
                                 <NumberValue
+                                    type="number"
                                     value={entry.value}
                                     onChange={({ target: { value } }) => {
                                         dispatch(
                                             actions.modifyBond({
-                                                name: entry.name,
+                                                ...entry,
                                                 value: parseInt(value || '0'),
-                                                notes: entry.notes,
                                             })
                                         );
                                     }}
@@ -82,6 +100,7 @@ export const BondsFrame = () => {
                         </Cell>
                         <Cell>
                             <NumberValue
+                                type="number"
                                 onBlur={save}
                                 onChange={({ target: { value } }) => {
                                     setNewBond({

@@ -15,6 +15,14 @@ export const { actions, reducer } = createSlice({
         addItem: (state, { payload }: PayloadAction<Item>) => {
             return [...state, payload];
         },
+        updateItem: (
+            state,
+            {
+                payload: { index, item },
+            }: PayloadAction<{ index: number; item: Item }>
+        ) => {
+            state[index] = item;
+        },
         removeItem: (
             state,
             { payload }: PayloadAction<{ name: string; count?: number }>

@@ -20,7 +20,12 @@ export const { actions, reducer } = createSlice({
             const index = state.findIndex((entry) => {
                 return entry.name == payload.name;
             });
-            if (index) {
+            console.log(
+                index,
+                state.map((e) => e),
+                payload.name
+            );
+            if (index > -1) {
                 state[index] = payload;
             }
             return state;
