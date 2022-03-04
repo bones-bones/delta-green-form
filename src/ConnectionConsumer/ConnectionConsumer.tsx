@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+// import styled from '@emotion/styled';
 
 import React, { useEffect, useState } from 'react';
 import { createGuest } from '../rtc/rtc';
@@ -6,6 +6,7 @@ export const ConnectionConsumer = () => {
     const [connectionInfo, setConnectionInfo] =
         useState<RTCSessionDescriptionInit>();
     const [connection, setConnection] = useState<RTCPeerConnection>();
+    const [dataChannel, setDataChannel] = useState<RTCDataChannel>();
 
     useEffect(() => {
         console.log('going to connect', connectionInfo);
@@ -17,21 +18,36 @@ export const ConnectionConsumer = () => {
         }
     }, [connectionInfo]);
 
+    if (connection) {
+        connection.ondatachannel = ({ channel }) => {
+            console.log('second data channel', channel);
+            setDataChannel(channel);
+        };
+    }
+
     return (
         <>
             Enter code
-            <input
-                type="text"
-                onChange={({ target: { value } }) => {
+            <button
+                onClick={async () => {
                     setConnectionInfo(
-                        JSON.parse(value.replaceAll('\\\\', '\\'))
+                        JSON.parse(
+                            (await navigator.clipboard.readText()).replaceAll(
+                                '\\\\',
+                                '\\'
+                            )
+                        )
                     );
                 }}
-            />
+            >
+                register
+            </button>
             {connection && (
                 <input
                     onChange={() => {
-                        connection.createDataChannel('ee').send('here');
+                        if (dataChannel) {
+                            dataChannel.send('!!');
+                        }
                     }}
                 />
             )}

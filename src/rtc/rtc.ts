@@ -8,6 +8,11 @@ export const createHost = async () =>
 
         const dataChannel = peerConn.createDataChannel('projecting');
 
+        dataChannel.onopen = () => {
+            console.log('open');
+            dataChannel.send('!');
+        };
+
         dataChannel.onmessage = async (message: any) => {
             console.log(message);
             const parsedMessage =
@@ -30,7 +35,6 @@ export const createHost = async () =>
                     );
                 }
             } else if (candidate) {
-                console.log('CANDIDATEO');
                 await peerConn.addIceCandidate(candidate);
             }
         };
@@ -56,6 +60,7 @@ export const createHost = async () =>
                 };
             }
         };
+
         peerConn.createOffer().then((desc) => {
             peerConn.setLocalDescription(desc).then(() => {
                 resolve(peerConn);
@@ -64,7 +69,7 @@ export const createHost = async () =>
     });
 
 export const createGuest = async (offerDesc: RTCSessionDescriptionInit) =>
-    new Promise<RTCPeerConnection>((resolve) => {
+    new Promise<RTCPeerConnection>(async (resolve) => {
         const peerConn = createRTCPeerConnection();
         peerConn.ondatachannel = ({ channel }) => {
             console.log('Channel Request');
@@ -82,9 +87,7 @@ export const createGuest = async (offerDesc: RTCSessionDescriptionInit) =>
 
                         if (description.type === 'offer') {
                             await peerConn.setLocalDescription(
-                                await peerConn.createAnswer({
-                                    //    offerToReceiveVideo: true,
-                                })
+                                await peerConn.createAnswer()
                             );
                             channel.send(
                                 JSON.stringify({
@@ -99,39 +102,31 @@ export const createGuest = async (offerDesc: RTCSessionDescriptionInit) =>
             };
         };
         peerConn.onicecandidate = (e) => {
+            console.log('cand');
             if (e.candidate === null) {
                 navigator.clipboard.writeText(
                     JSON.stringify(peerConn.localDescription)
                 );
             }
         };
-        peerConn.setRemoteDescription(new RTCSessionDescription(offerDesc));
 
-        peerConn
-            .createAnswer({
-                //  offerToReceiveVideo: true
-            })
-            .then((desc) => {
-                peerConn.setLocalDescription(desc).then(() => {
-                    resolve(peerConn);
-                });
-            });
+        await peerConn.setRemoteDescription(
+            new RTCSessionDescription(offerDesc)
+        );
+        const answer = await peerConn.createAnswer();
+        await peerConn.setLocalDescription(answer);
+
+        resolve(peerConn);
     });
 
 export function beginProjection() {
     return new Promise<RTCPeerConnection>((resolve) => {
-        const broadcastChannel = new BroadcastChannel('projectionChannel');
         createHost().then((test) => {
             console.log(test, JSON.stringify(test.localDescription));
-
-            broadcastChannel.onmessage = function async(ev) {
-                console.log(ev);
-
-                test.setRemoteDescription(JSON.parse(ev.data)).then(() => {
-                    resolve(test);
-                });
-            };
-            broadcastChannel.postMessage('!');
+            navigator.clipboard.writeText(
+                JSON.stringify(test.localDescription)
+            );
+            resolve(test);
         });
     });
 }
