@@ -2190,6 +2190,11 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
 
+"@types/webrtc@^0.0.31":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@types/webrtc/-/webrtc-0.0.31.tgz#164b8d6f40ff0238b3e62604e8d23f7377125284"
+  integrity sha512-GEoJIoM/ddxdaGnu0enJVDTdvwwr3/tPkpXz0LBTSi282gqxWDg1ffk4fzHU2dosNshp+Slq1kfGxpKs5083Nw==
+
 "@types/yargs-parser@*":
   version "20.2.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-20.2.0.tgz#dd3e6699ba3237f0348cd085e4698780204842f9"

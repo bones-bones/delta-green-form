@@ -4,11 +4,22 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { SectionHeader } from '../components';
 import { getPoints } from '../points';
+import { beginProjection } from '../rtc/rtc';
 
 export const DerivedFrame = () => {
     const derivedAttributes = useSelector(getPoints);
     return (
         <div>
+            <button
+                onClick={async () => {
+                    const test = await beginProjection();
+                    test.createDataChannel('2');
+
+                    console.log(test);
+                }}
+            >
+                test
+            </button>
             <SectionHeader>Derived Attributes</SectionHeader>
             <Table>
                 <thead>
