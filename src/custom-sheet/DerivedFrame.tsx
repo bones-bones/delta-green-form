@@ -4,37 +4,12 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { SectionHeader } from '../components';
 import { getPoints } from '../points';
-import { beginProjection } from '../rtc/rtc';
 
 export const DerivedFrame = () => {
     const derivedAttributes = useSelector(getPoints);
-    const [connection, setConnection] = useState<RTCPeerConnection>();
 
     return (
         <div>
-            <button
-                onClick={async () => {
-                    const test = await beginProjection();
-                    setConnection(test);
-                    console.log(test);
-                }}
-            >
-                test
-            </button>
-
-            <button
-                onClick={async () => {
-                    const resp = JSON.parse(
-                        (await navigator.clipboard.readText()).replaceAll(
-                            '\\\\',
-                            '\\'
-                        )
-                    );
-                    connection?.setRemoteDescription(resp);
-                }}
-            >
-                second button
-            </button>
             <SectionHeader>Derived Attributes</SectionHeader>
             <Table>
                 <thead>

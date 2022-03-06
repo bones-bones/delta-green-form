@@ -1,7 +1,7 @@
 // import styled from '@emotion/styled';
 
 import React, { useEffect, useState } from 'react';
-import { createGuest } from '../rtc/rtc';
+import { createGuest } from '../rtc';
 export const ConnectionConsumer = () => {
     const [connectionInfo, setConnectionInfo] =
         useState<RTCSessionDescriptionInit>();
@@ -18,12 +18,16 @@ export const ConnectionConsumer = () => {
         }
     }, [connectionInfo]);
 
-    if (connection) {
-        connection.ondatachannel = ({ channel }) => {
-            console.log('second data channel', channel);
-            setDataChannel(channel);
-        };
-    }
+    useEffect(() => {
+        if (connection) {
+            const monkeyOnDataChannel = connection.ondatachannel;
+
+            connection.ondatachannel = (args) => {
+                setDataChannel(args.channel);
+                monkeyOnDataChannel?.apply(connection, [args]);
+            };
+        }
+    }, [connection]);
 
     return (
         <>
@@ -44,9 +48,14 @@ export const ConnectionConsumer = () => {
             </button>
             {connection && (
                 <input
-                    onChange={() => {
+                    onChange={({ target: { value } }) => {
                         if (dataChannel) {
-                            dataChannel.send('!!');
+                            dataChannel.send(
+                                JSON.stringify({
+                                    title: 'title',
+                                    message: value,
+                                })
+                            );
                         }
                     }}
                 />
