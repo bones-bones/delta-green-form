@@ -19,7 +19,6 @@ export const HostFrame = () => {
 
     return (
         <>
-            Enter code
             <button
                 onClick={async () => {
                     createGuest(
@@ -35,7 +34,7 @@ export const HostFrame = () => {
                     });
                 }}
             >
-                register
+                Join
             </button>
             {connection && (
                 <input

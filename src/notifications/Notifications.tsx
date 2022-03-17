@@ -7,11 +7,10 @@ import { actions } from './reducer';
 import { selectNotifications } from './selectors';
 
 export const Notifications = () => {
+    const dispatch = useDispatch();
     const noteList = useSelector(selectNotifications).filter(
         ({ seen }) => !seen
     );
-
-    const dispatch = useDispatch();
 
     const [connection, setConnection] = useState<RTCPeerConnection>();
     const [localDataChannel, setDataChannel] = useState<RTCDataChannel>();
@@ -46,7 +45,7 @@ export const Notifications = () => {
                     setDataChannel(dataChannel);
                 }}
             >
-                Join
+                Host
             </button>
 
             <button
@@ -60,7 +59,7 @@ export const Notifications = () => {
                     connection?.setRemoteDescription(resp);
                 }}
             >
-                second button
+                Accept guest
             </button>
             {noteList.map((e, index) => (
                 <Note key={index}>
