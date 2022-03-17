@@ -3,20 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { createGuest } from '../rtc';
 export const HostFrame = () => {
-    const [connectionInfo, setConnectionInfo] =
-        useState<RTCSessionDescriptionInit>();
     const [connection, setConnection] = useState<RTCPeerConnection>();
     const [dataChannel, setDataChannel] = useState<RTCDataChannel>();
-
-    useEffect(() => {
-        console.log('going to connect', connectionInfo);
-        if (connectionInfo) {
-            createGuest(connectionInfo).then((e) => {
-                setConnection(e);
-                console.log(e, 'connection');
-            });
-        }
-    }, [connectionInfo]);
 
     useEffect(() => {
         if (connection) {
@@ -34,14 +22,17 @@ export const HostFrame = () => {
             Enter code
             <button
                 onClick={async () => {
-                    setConnectionInfo(
+                    createGuest(
                         JSON.parse(
                             (await navigator.clipboard.readText()).replaceAll(
                                 '\\\\',
                                 '\\'
                             )
                         )
-                    );
+                    ).then((e) => {
+                        setConnection(e);
+                        console.log(e, 'connection');
+                    });
                 }}
             >
                 register

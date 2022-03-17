@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { beginProjection, createGuest } from '../rtc';
+import { beginProjection } from '../rtc';
 import { actions } from './reducer';
 import { selectNotifications } from './selectors';
 
