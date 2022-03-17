@@ -16,11 +16,6 @@ const initialState: Notification[] = [
     { message: '1st', title: '1aoesuth', id: '1' },
     { message: 'second', title: '1aoesuth', id: '2' },
     { message: 'Second', title: '1aoesuth', id: '3' },
-    { message: 'test, test\n test', title: '1aoesuth', id: '4' },
-    { message: 'Second', title: '1aoesuth', id: '5' },
-    { message: 'test, test\n test', title: '1aoesuth', id: '6' },
-    { message: 'Second', title: '1aoesuth', id: '7' },
-    { message: 'test, test\n test', title: '1aoesuth', id: '8' },
 ];
 
 export const { actions, reducer } = createSlice({

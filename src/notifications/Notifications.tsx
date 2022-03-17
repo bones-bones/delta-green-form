@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { beginProjection } from '../rtc';
+import { beginProjection, createGuest } from '../rtc';
 import { actions } from './reducer';
 import { selectNotifications } from './selectors';
 
@@ -10,7 +10,9 @@ export const Notifications = () => {
     const noteList = useSelector(selectNotifications).filter(
         ({ seen }) => !seen
     );
+
     const dispatch = useDispatch();
+
     const [connection, setConnection] = useState<RTCPeerConnection>();
     const [localDataChannel, setDataChannel] = useState<RTCDataChannel>();
 
@@ -44,8 +46,9 @@ export const Notifications = () => {
                     setDataChannel(dataChannel);
                 }}
             >
-                test
+                Join
             </button>
+
             <button
                 onClick={async () => {
                     const resp = JSON.parse(
@@ -60,18 +63,21 @@ export const Notifications = () => {
                 second button
             </button>
             {noteList.map((e, index) => (
-                <Note
-                    key={index}
-                    onClick={() => {
-                        dispatch(actions.markAsRead(e.id));
-                    }}
-                >
-                    {e.message}
+                <Note key={index}>
+                    {e.message}{' '}
+                    <CloseButton
+                        onClick={() => {
+                            dispatch(actions.markAsRead(e.id));
+                        }}
+                    >
+                        X
+                    </CloseButton>
                 </Note>
             ))}
         </Container>
     );
 };
+const CloseButton = styled.button();
 
 const Container = styled.div({
     position: 'fixed',
@@ -84,4 +90,6 @@ const Note = styled.div({
     backgroundColor: 'green',
     border: '2px solid white',
     marginTop: '10px',
+    display: 'flex',
+    justifyContent: 'space-between',
 });

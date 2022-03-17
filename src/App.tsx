@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ConnectionConsumer } from './ConnectionConsumer';
+import { HostFrame } from './host-frame';
 import { CustomSheet } from './custom-sheet';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<CustomSheet />} />
-                <Route path="/cc" element={<ConnectionConsumer />}></Route>
+                <Route path="/host" element={<HostFrame />}></Route>
             </Routes>
         </BrowserRouter>
     );

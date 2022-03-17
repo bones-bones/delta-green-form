@@ -12,7 +12,7 @@ import { StatDescriptions, StatTypes } from './types';
 export const StatFrame = () => {
     const initStats = useSelector(selectStats);
     const dispatch = useDispatch();
-
+    console.log(initStats);
     const [stats, setStats] = useState(initStats);
 
     return (
@@ -80,20 +80,24 @@ export const StatFrame = () => {
                     })}
                 </tbody>
             </table>
-            <button
-                onClick={() => {
-                    dispatch(actions.loadInitial(stats));
-                }}
-            >
-                Confirm
-            </button>
+            {Object.values(initStats).some((entry) => entry.value == 0) && (
+                <button
+                    onClick={() => {
+                        dispatch(actions.loadInitial(stats));
+                    }}
+                    disabled={Object.values(stats).some(
+                        (entry) => entry.value == 0
+                    )}
+                >
+                    Confirm
+                </button>
+            )}
         </div>
     );
 };
 
 const StatRow = styled.tr({
     color: 'white',
-
     alignItems: 'center',
 });
 

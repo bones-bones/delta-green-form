@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SectionHeader } from '../components';
-import { getPoints } from '../points';
+import { actions, getPoints } from '../points';
 
 export const DerivedFrame = () => {
     const derivedAttributes = useSelector(getPoints);
+    const dispatch = useDispatch();
 
     return (
         <div>
@@ -21,28 +22,64 @@ export const DerivedFrame = () => {
                 <tbody>
                     <tr>
                         <td>Hit Points</td>
-                        <td>
-                            {derivedAttributes.hp.current}/
-                            {derivedAttributes.hp.max}
-                        </td>
+                        <Cell>
+                            <StatButton
+                                onClick={() => {
+                                    dispatch(
+                                        actions.hpSet(
+                                            derivedAttributes.hp.current - 1
+                                        )
+                                    );
+                                }}
+                            >
+                                -
+                            </StatButton>
+                            <NumberContainer>
+                                {derivedAttributes.hp.current}/
+                                {derivedAttributes.hp.max}
+                            </NumberContainer>
+                            <StatButton
+                                onClick={() => {
+                                    dispatch(
+                                        actions.hpSet(
+                                            derivedAttributes.hp.current + 1
+                                        )
+                                    );
+                                }}
+                            >
+                                +
+                            </StatButton>
+                        </Cell>
                     </tr>
                     <tr>
                         <td>Willpower Points</td>
-                        <td>
-                            {derivedAttributes.wp.current}/
-                            {derivedAttributes.wp.max}
-                        </td>
+                        <Cell>
+                            <StatButton>-</StatButton>
+                            <NumberContainer>
+                                {derivedAttributes.wp.current}/
+                                {derivedAttributes.wp.max}
+                            </NumberContainer>
+                            <StatButton>+</StatButton>
+                        </Cell>
                     </tr>
                     <tr>
                         <td>Sanity Points</td>
-                        <td>
-                            {derivedAttributes.sp.current}/
-                            {derivedAttributes.sp.max}
-                        </td>
+                        <Cell>
+                            <StatButton>-</StatButton>
+                            <NumberContainer>
+                                {derivedAttributes.sp.current}/
+                                {derivedAttributes.sp.max}
+                            </NumberContainer>
+                            <StatButton>+</StatButton>
+                        </Cell>
                     </tr>
                     <tr>
                         <td>Breaking Point</td>
-                        <td>{derivedAttributes.bp}</td>
+                        <td>
+                            <NumberContainer>
+                                {derivedAttributes.bp}
+                            </NumberContainer>
+                        </td>
                     </tr>
                 </tbody>
             </Table>
@@ -50,4 +87,15 @@ export const DerivedFrame = () => {
     );
 };
 
-const Table = styled.table({ color: 'white' });
+const Table = styled.table({ color: 'white', fontSize: '20px' });
+
+const NumberContainer = styled.div();
+
+const StatButton = styled.button({
+    background: 'none',
+    color: 'white',
+    border: 'none',
+    fontWeight: 'bold',
+});
+
+const Cell = styled.td({ display: 'flex' });

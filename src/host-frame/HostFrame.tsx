@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { createGuest } from '../rtc';
-export const ConnectionConsumer = () => {
+export const HostFrame = () => {
     const [connectionInfo, setConnectionInfo] =
         useState<RTCSessionDescriptionInit>();
     const [connection, setConnection] = useState<RTCPeerConnection>();

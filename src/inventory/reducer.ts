@@ -23,25 +23,9 @@ export const { actions, reducer } = createSlice({
         ) => {
             state[index] = item;
         },
-        removeItem: (
-            state,
-            { payload }: PayloadAction<{ name: string; count?: number }>
-        ) => {
-            const remaining = state.find((entry) => {
-                return entry.name == payload.name;
-            });
-
-            if (remaining) {
-                if (remaining.count) {
-                    remaining.count--;
-                }
-
-                return [
-                    ...state.filter(
-                        (entry) => !entry || (entry.count && entry.count > 0)
-                    ),
-                ];
-            }
+        removeItem: (state, { payload }: PayloadAction<number>) => {
+            console.log(state.splice(payload, 1), payload);
+            state = state.slice(payload, 1);
         },
     },
 });

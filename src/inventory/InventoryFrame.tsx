@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddRowButton, SectionHeader } from '../components';
+import { StyledButton } from '../components/AddRowButton';
 import { actions } from './reducer';
 import { selectInventory } from './selectors';
 import { Item } from './types';
@@ -27,6 +28,7 @@ export const InventoryFrame = () => {
                     <TableHeadItem>Name</TableHeadItem>
                     <TableHeadItem>Description</TableHeadItem>
                     <TableHeadItem>Count</TableHeadItem>
+                    <TableHeadItem>Delete</TableHeadItem>
                 </HeaderRow>
                 {Object.values(items).map((entry, index) => {
                     return (
@@ -81,6 +83,15 @@ export const InventoryFrame = () => {
                                     }}
                                 />
                             </Cell>
+                            <Cell>
+                                <StyledButton
+                                    onClick={() =>
+                                        dispatch(actions.removeItem(index))
+                                    }
+                                >
+                                    remove row
+                                </StyledButton>
+                            </Cell>
                         </Entry>
                     );
                 })}
@@ -120,6 +131,11 @@ export const InventoryFrame = () => {
                                 }}
                                 onBlur={save}
                             />
+                        </Cell>
+                        <Cell>
+                            <StyledButton onClick={() => setNewRow(undefined)}>
+                                remove row
+                            </StyledButton>
                         </Cell>
                     </Entry>
                 )}

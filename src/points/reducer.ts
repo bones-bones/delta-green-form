@@ -13,27 +13,15 @@ export const { actions, reducer } = createSlice({
     name: 'points',
     initialState,
     reducers: {
-        hpAdjust: (
-            state,
-            { payload }: PayloadAction<number>
-        ) => {
-            state.hp.current += payload
-            
+        hpSet: (state, { payload }: PayloadAction<number>) => {
+            state.hp.current = payload;
         },
-        wpAdjust: (
-            state,
-            { payload }: PayloadAction<number>
-        ) => {
-            state.wp.current += payload
+        wpSet: (state, { payload }: PayloadAction<number>) => {
+            state.wp.current = payload;
         },
-        spAdjust: (
-            state,
-            { payload }: PayloadAction<number>
-        ) => {
-            state.sp.current += payload
-            
+        spSet: (state, { payload }: PayloadAction<number>) => {
+            state.sp.current = payload;
         },
-
     },
     extraReducers: {
         [statActions.loadInitial.type]: (_state, { payload }) => {
@@ -43,7 +31,7 @@ export const { actions, reducer } = createSlice({
             const wp = payload.will.value;
             const san = payload.will.value * 5;
             const breakingPoint = san - payload.will.value;
-             return {
+            return {
                 hp: {
                     max: hp,
                     current: hp,

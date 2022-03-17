@@ -1,2 +1,2 @@
-export * from './slice'
-export * from './selectors'
+export * from './reducer';
+export * from './selectors';

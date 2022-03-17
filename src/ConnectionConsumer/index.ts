@@ -1,1 +1,0 @@
-export { ConnectionConsumer } from './ConnectionConsumer';

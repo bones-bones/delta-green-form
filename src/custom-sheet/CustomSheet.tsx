@@ -60,7 +60,10 @@ const renderTab = (tabId: number) => {
     }
 };
 
-const TopFrame = styled.div({ display: 'flex' });
+const TopFrame = styled.div({
+    display: 'flex',
+    justifyContent: 'space-around',
+});
 
 const Background = styled.div({
     backgroundColor: '#002200',
