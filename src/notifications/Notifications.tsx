@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { beginProjection } from '../rtc';
+import { createGuest } from '../rtc';
 import { actions } from './reducer';
 import { selectNotifications } from './selectors';
 
@@ -21,16 +21,21 @@ export const Notifications = () => {
             const dataChannelMessageRef = localDataChannel.onmessage!; // doing this because of the connection handling built into the beginProjection logic
 
             localDataChannel.onmessage = (message) => {
-                console.log('monkey patch'); // todo don't do this too many times
-                const resp = JSON.parse(message.data);
-                dispatch(
-                    actions.addMessage({
-                        message: resp.message,
-                        title: resp.title,
-                    })
-                );
+                console.log('monkey patch', message); // todo don't do this too many times
+                try {
+                    const resp = JSON.parse(message.data);
 
-                dataChannelMessageRef.apply(localDataChannel, [message]);
+                    dispatch(
+                        actions.addMessage({
+                            message: resp.message,
+                            title: resp.title,
+                        })
+                    );
+
+                    dataChannelMessageRef.apply(localDataChannel, [message]);
+                } catch {
+                    console.log('errored');
+                }
             };
         }
     }, [localDataChannel]);
@@ -39,28 +44,26 @@ export const Notifications = () => {
         <Container>
             <button
                 onClick={async () => {
-                    const { dataChannel, peerConnection } =
-                        await beginProjection();
-                    setConnection(peerConnection);
-                    setDataChannel(dataChannel);
+                    createGuest(
+                        JSON.parse(
+                            (await navigator.clipboard.readText()).replaceAll(
+                                '\\\\',
+                                '\\'
+                            )
+                        )
+                    ).then((e) => {
+                        setConnection(e);
+                        e.ondatachannel = ({ channel }) => {
+                            console.log('on data channel', channel);
+                            setDataChannel(channel);
+                        };
+                        console.log(e, 'connection');
+                    });
                 }}
             >
-                Host
+                Join
             </button>
 
-            <button
-                onClick={async () => {
-                    const resp = JSON.parse(
-                        (await navigator.clipboard.readText()).replaceAll(
-                            '\\\\',
-                            '\\'
-                        )
-                    );
-                    connection?.setRemoteDescription(resp);
-                }}
-            >
-                Accept guest
-            </button>
             {noteList.map((e, index) => (
                 <Note key={index}>
                     {e.message}{' '}

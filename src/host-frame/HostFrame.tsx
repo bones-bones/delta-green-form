@@ -1,7 +1,7 @@
 // import styled from '@emotion/styled';
 
 import React, { useEffect, useState } from 'react';
-import { createGuest } from '../rtc';
+import { beginProjection } from '../rtc';
 export const HostFrame = () => {
     const [connection, setConnection] = useState<RTCPeerConnection>();
     const [dataChannel, setDataChannel] = useState<RTCDataChannel>();
@@ -21,20 +21,26 @@ export const HostFrame = () => {
         <>
             <button
                 onClick={async () => {
-                    createGuest(
-                        JSON.parse(
-                            (await navigator.clipboard.readText()).replaceAll(
-                                '\\\\',
-                                '\\'
-                            )
-                        )
-                    ).then((e) => {
-                        setConnection(e);
-                        console.log(e, 'connection');
-                    });
+                    const { dataChannel, peerConnection } =
+                        await beginProjection();
+                    setConnection(peerConnection);
+                    setDataChannel(dataChannel);
                 }}
             >
-                Join
+                Host
+            </button>
+            <button
+                onClick={async () => {
+                    const resp = JSON.parse(
+                        (await navigator.clipboard.readText()).replaceAll(
+                            '\\\\',
+                            '\\'
+                        )
+                    );
+                    connection?.setRemoteDescription(resp);
+                }}
+            >
+                Accept guest
             </button>
             {connection && (
                 <input
