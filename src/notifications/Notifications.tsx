@@ -20,15 +20,15 @@ export const Notifications = () => {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const dataChannelMessageRef = localDataChannel.onmessage!; // doing this because of the connection handling built into the beginProjection logic
 
-            localDataChannel.onmessage = (message) => {
-                console.log('monkey patch', message); // todo don't do this too many times
+            localDataChannel.onmessage = (channelMessage) => {
+                console.log('monkey patch', channelMessage); // todo don't do this too many times
                 try {
-                    const resp = JSON.parse(message.data);
+                    const { message, title } = JSON.parse(channelMessage.data);
 
                     dispatch(
                         actions.addMessage({
-                            message: resp.message,
-                            title: resp.title,
+                            message,
+                            title,
                         })
                     );
 
