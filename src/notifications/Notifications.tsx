@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createGuest } from '../rtc';
+import { useRTCGuest } from '../host-frame/useRTC';
+import { getDataChannel } from '../rtc/selectors';
 import { actions } from './reducer';
 import { selectNotifications } from './selectors';
 
@@ -12,15 +13,17 @@ export const Notifications = () => {
         ({ seen }) => !seen
     );
 
-    const [connection, setConnection] = useState<RTCPeerConnection>();
-    const [localDataChannel, setDataChannel] = useState<RTCDataChannel>();
+    const [hostDescription, setHostDescrption] =
+        useState<RTCSessionDescriptionInit>();
+    useRTCGuest(hostDescription);
+    const dataChannel = useSelector(getDataChannel);
 
     useEffect(() => {
-        if (localDataChannel) {
+        if (dataChannel) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const dataChannelMessageRef = localDataChannel.onmessage!; // doing this because of the connection handling built into the beginProjection logic
+            const dataChannelMessageRef = dataChannel.onmessage!; // doing this because of the connection handling built into the beginProjection logic
 
-            localDataChannel.onmessage = (channelMessage) => {
+            dataChannel.onmessage = (channelMessage) => {
                 console.log('monkey patch', channelMessage); // todo don't do this too many times
                 try {
                     const { message, title } = JSON.parse(channelMessage.data);
@@ -32,33 +35,26 @@ export const Notifications = () => {
                         })
                     );
 
-                    dataChannelMessageRef.apply(localDataChannel, [message]);
+                    dataChannelMessageRef.apply(dataChannel, [message]);
                 } catch {
                     console.log('errored');
                 }
             };
         }
-    }, [localDataChannel]);
+    }, [dataChannel]);
 
     return (
         <Container>
             <button
                 onClick={async () => {
-                    createGuest(
+                    setHostDescrption(
                         JSON.parse(
                             (await navigator.clipboard.readText()).replaceAll(
                                 '\\\\',
                                 '\\'
                             )
                         )
-                    ).then((e) => {
-                        setConnection(e);
-                        e.ondatachannel = ({ channel }) => {
-                            console.log('on data channel', channel);
-                            setDataChannel(channel);
-                        };
-                        console.log(e, 'connection');
-                    });
+                    );
                 }}
             >
                 Join

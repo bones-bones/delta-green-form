@@ -11,23 +11,26 @@ export const createGuest = async (offerDesc: RTCSessionDescriptionInit) => {
                     typeof ent.data === 'string' && ent.data.startsWith('{')
                         ? JSON.parse(ent.data)
                         : ent.data;
-                const { description, candidate } = parsedMessage;
+                if (parsedMessage) {
+                    console.log('received a request to renegotiate');
+                    const { description, candidate } = parsedMessage;
 
-                if (description) {
-                    await peerConn.setRemoteDescription(description);
+                    if (description) {
+                        await peerConn.setRemoteDescription(description);
 
-                    if (description.type === 'offer') {
-                        await peerConn.setLocalDescription(
-                            await peerConn.createAnswer()
-                        );
-                        channel.send(
-                            JSON.stringify({
-                                description: peerConn.localDescription,
-                            })
-                        );
+                        if (description.type === 'offer') {
+                            await peerConn.setLocalDescription(
+                                await peerConn.createAnswer()
+                            );
+                            channel.send(
+                                JSON.stringify({
+                                    description: peerConn.localDescription,
+                                })
+                            );
+                        }
+                    } else if (candidate) {
+                        await peerConn.addIceCandidate(candidate);
                     }
-                } else if (candidate) {
-                    await peerConn.addIceCandidate(candidate);
                 }
             };
         };

@@ -39,29 +39,33 @@ export const Connection = ({ registerConnection }: Props) => {
                     setDataChannel(dataChannel);
                 }}
             >
-                Host
+                Create Offer
             </button>
-            <button
-                onClick={async () => {
-                    const resp = JSON.parse(
-                        (await navigator.clipboard.readText()).replaceAll(
-                            '\\\\',
-                            '\\'
-                        )
-                    );
-                    await connection?.setRemoteDescription(resp);
-                    if (dataChannel && connection) {
-                        registerConnection({
-                            connection,
-                            channel: dataChannel,
-                            name,
-                        });
-                    }
-                }}
-            >
-                Accept guest
-            </button>
+            {connection && (
+                <button
+                    onClick={async () => {
+                        const resp = JSON.parse(
+                            (await navigator.clipboard.readText()).replaceAll(
+                                '\\\\',
+                                '\\'
+                            )
+                        );
+                        await connection.setRemoteDescription(resp);
+                        if (dataChannel) {
+                            registerConnection({
+                                connection,
+                                channel: dataChannel,
+                                name,
+                            });
+                        }
+                    }}
+                >
+                    Accept Response
+                </button>
+            )}
+            <label htmlFor="name">Player name</label>
             <input
+                id="name"
                 type="text"
                 onBlur={({ target: { value } }) => {
                     setName(value);

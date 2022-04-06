@@ -54,23 +54,63 @@ export const DerivedFrame = () => {
                     <tr>
                         <td>Willpower Points</td>
                         <Cell>
-                            <StatButton>-</StatButton>
+                            <StatButton
+                                onClick={() => {
+                                    dispatch(
+                                        actions.spSet(
+                                            derivedAttributes.sp.current - 1
+                                        )
+                                    );
+                                }}
+                            >
+                                -
+                            </StatButton>
                             <NumberContainer>
                                 {derivedAttributes.wp.current}/
                                 {derivedAttributes.wp.max}
                             </NumberContainer>
-                            <StatButton>+</StatButton>
+                            <StatButton
+                                onClick={() => {
+                                    dispatch(
+                                        actions.wpSet(
+                                            derivedAttributes.wp.current + 1
+                                        )
+                                    );
+                                }}
+                            >
+                                +
+                            </StatButton>
                         </Cell>
                     </tr>
                     <tr>
                         <td>Sanity Points</td>
                         <Cell>
-                            <StatButton>-</StatButton>
+                            <StatButton
+                                onClick={() => {
+                                    dispatch(
+                                        actions.spSet(
+                                            derivedAttributes.sp.current - 1
+                                        )
+                                    );
+                                }}
+                            >
+                                -
+                            </StatButton>
                             <NumberContainer>
                                 {derivedAttributes.sp.current}/
                                 {derivedAttributes.sp.max}
                             </NumberContainer>
-                            <StatButton>+</StatButton>
+                            <StatButton
+                                onClick={() => {
+                                    dispatch(
+                                        actions.spSet(
+                                            derivedAttributes.sp.current + 1
+                                        )
+                                    );
+                                }}
+                            >
+                                +
+                            </StatButton>
                         </Cell>
                     </tr>
                     <tr>
@@ -89,13 +129,14 @@ export const DerivedFrame = () => {
 
 const Table = styled.table({ color: 'white', fontSize: '20px' });
 
-const NumberContainer = styled.div();
+const NumberContainer = styled.div({});
 
 const StatButton = styled.button({
     background: 'none',
     color: 'white',
-    border: 'none',
+    border: '1 px solid white',
     fontWeight: 'bold',
+    fontSize: '20px',
 });
 
 const Cell = styled.td({ display: 'flex' });
