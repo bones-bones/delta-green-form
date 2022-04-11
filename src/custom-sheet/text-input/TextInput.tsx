@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import React, { forwardRef, } from 'react';
+import React, { forwardRef } from 'react';
 
 export const TextInput = forwardRef(
     (props: React.HTMLProps<HTMLInputElement>, ref: any) => {

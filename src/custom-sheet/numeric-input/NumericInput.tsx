@@ -7,6 +7,10 @@ export const NumericInput = styled.input({
         backgroundColor: 'transparent',
         border: '1px solid transparent',
     },
+    ':disabled': {
+        backgroundColor: '#002200',
+        border: '1px solid transparent',
+    },
     color: 'white',
     fontSize: '16px',
     border: '1px solid green',

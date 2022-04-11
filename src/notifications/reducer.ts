@@ -12,11 +12,7 @@ interface NotificationMetadata {
 
 type Notification = NotificationData & NotificationMetadata;
 
-const initialState: Notification[] = [
-    { message: '1st', title: '1aoesuth', id: '1' },
-    { message: 'second', title: '1aoesuth', id: '2' },
-    { message: 'Second', title: '1aoesuth', id: '3' },
-];
+const initialState: Notification[] = [];
 
 export const { actions, reducer } = createSlice({
     name: 'notifications',

@@ -28,3 +28,4 @@ Guest
 [ ] save state to local storage
 [ ] load state from local storage
 [ ] Combine inventory and bonds tab
+[ ] Player icons

@@ -16,7 +16,7 @@ export const StatFrame = () => {
     const [stats, setStats] = useState(initStats);
 
     return (
-        <div>
+        <Container>
             <SectionHeader>Stats</SectionHeader>
             <table>
                 <thead>
@@ -92,7 +92,7 @@ export const StatFrame = () => {
                     Confirm
                 </button>
             )}
-        </div>
+        </Container>
     );
 };
 
@@ -102,3 +102,4 @@ const StatRow = styled.tr({
 });
 
 const Times5 = styled.td({ fontSize: '20px' });
+const Container = styled.div({ flexGrow: 0.3 });

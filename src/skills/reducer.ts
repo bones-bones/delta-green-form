@@ -7,7 +7,7 @@ type Skill = {
     name: string;
 };
 
-const initialState: Record<keyof typeof skillsSetup, Skill> = Object.keys(
+const skillMappings: Record<keyof typeof skillsSetup, Skill> = Object.keys(
     skillsSetup
 ).reduce((skillObject, skillKey) => {
     return {
@@ -19,6 +19,8 @@ const initialState: Record<keyof typeof skillsSetup, Skill> = Object.keys(
         },
     };
 }, {} as Record<keyof typeof skillsSetup, Skill>);
+
+const initialState = { skills: skillMappings, pointsToAllocate: 100 };
 
 export const { actions, reducer } = createSlice({
     name: 'skills',
@@ -34,7 +36,8 @@ export const { actions, reducer } = createSlice({
             state,
             { payload: skillId }: PayloadAction<keyof typeof skillsSetup>
         ) => {
-            state[skillId].failedInSession = !state[skillId].failedInSession;
+            state.skills[skillId].failedInSession =
+                !state.skills[skillId].failedInSession;
             return state;
         },
         setSkill: (
@@ -43,11 +46,16 @@ export const { actions, reducer } = createSlice({
                 payload: { name, value },
             }: PayloadAction<{ name: keyof typeof skillsSetup; value: number }>
         ) => {
-            state[name].value = value;
+            const acceptableValue = Math.min(value, state.pointsToAllocate);
+
+            const diff = state.skills[name].value - acceptableValue;
+
+            state.pointsToAllocate += diff;
+            state.skills[name].value = acceptableValue;
             return state;
         },
         completeScenario: (state) => {
-            Object.values(state).forEach((skill: Skill) => {
+            Object.values(state.skills).forEach((skill: Skill) => {
                 if (skill.failedInSession) {
                     skill.value += Math.floor(Math.random() * 4) + 1;
                     skill.failedInSession = false;

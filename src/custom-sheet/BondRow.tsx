@@ -1,5 +1,3 @@
-
-
 import React, { createRef } from 'react';
 import { NumericInput } from './numeric-input';
 import { TextInput } from './text-input';
@@ -61,7 +59,7 @@ export const BondRow = ({
                     maxLength={2}
                     size={2}
                     required
-                    defaultValue={score!=0?score:undefined}
+                    defaultValue={score != 0 ? score : undefined}
                     onFocus={(event) => event.target.select()}
                 />
             </td>

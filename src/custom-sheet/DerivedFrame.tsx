@@ -6,11 +6,13 @@ import { SectionHeader } from '../components';
 import { actions, getPoints } from '../points';
 
 export const DerivedFrame = () => {
-    const derivedAttributes = useSelector(getPoints);
+    const { hp, sp, wp, bp } = useSelector(getPoints);
     const dispatch = useDispatch();
 
+    const isUnset = hp.max == 0;
+
     return (
-        <div>
+        <Container>
             <SectionHeader>Derived Attributes</SectionHeader>
             <Table>
                 <thead>
@@ -24,27 +26,20 @@ export const DerivedFrame = () => {
                         <td>Hit Points</td>
                         <Cell>
                             <StatButton
+                                disabled={isUnset}
                                 onClick={() => {
-                                    dispatch(
-                                        actions.hpSet(
-                                            derivedAttributes.hp.current - 1
-                                        )
-                                    );
+                                    dispatch(actions.hpSet(hp.current - 1));
                                 }}
                             >
                                 -
                             </StatButton>
                             <NumberContainer>
-                                {derivedAttributes.hp.current}/
-                                {derivedAttributes.hp.max}
+                                {hp.current}/{hp.max}
                             </NumberContainer>
                             <StatButton
+                                disabled={isUnset}
                                 onClick={() => {
-                                    dispatch(
-                                        actions.hpSet(
-                                            derivedAttributes.hp.current + 1
-                                        )
-                                    );
+                                    dispatch(actions.hpSet(hp.current + 1));
                                 }}
                             >
                                 +
@@ -55,27 +50,20 @@ export const DerivedFrame = () => {
                         <td>Willpower Points</td>
                         <Cell>
                             <StatButton
+                                disabled={isUnset}
                                 onClick={() => {
-                                    dispatch(
-                                        actions.spSet(
-                                            derivedAttributes.sp.current - 1
-                                        )
-                                    );
+                                    dispatch(actions.spSet(wp.current - 1));
                                 }}
                             >
                                 -
                             </StatButton>
                             <NumberContainer>
-                                {derivedAttributes.wp.current}/
-                                {derivedAttributes.wp.max}
+                                {wp.current}/{wp.max}
                             </NumberContainer>
                             <StatButton
+                                disabled={isUnset}
                                 onClick={() => {
-                                    dispatch(
-                                        actions.wpSet(
-                                            derivedAttributes.wp.current + 1
-                                        )
-                                    );
+                                    dispatch(actions.wpSet(wp.current + 1));
                                 }}
                             >
                                 +
@@ -86,27 +74,20 @@ export const DerivedFrame = () => {
                         <td>Sanity Points</td>
                         <Cell>
                             <StatButton
+                                disabled={isUnset}
                                 onClick={() => {
-                                    dispatch(
-                                        actions.spSet(
-                                            derivedAttributes.sp.current - 1
-                                        )
-                                    );
+                                    dispatch(actions.spSet(sp.current - 1));
                                 }}
                             >
                                 -
                             </StatButton>
                             <NumberContainer>
-                                {derivedAttributes.sp.current}/
-                                {derivedAttributes.sp.max}
+                                {sp.current}/{sp.max}
                             </NumberContainer>
                             <StatButton
+                                disabled={isUnset}
                                 onClick={() => {
-                                    dispatch(
-                                        actions.spSet(
-                                            derivedAttributes.sp.current + 1
-                                        )
-                                    );
+                                    dispatch(actions.spSet(sp.current + 1));
                                 }}
                             >
                                 +
@@ -116,14 +97,14 @@ export const DerivedFrame = () => {
                     <tr>
                         <td>Breaking Point</td>
                         <td>
-                            <NumberContainer>
-                                {derivedAttributes.bp}
-                            </NumberContainer>
+                            <Cell>
+                                <NumberContainer>{bp}</NumberContainer>
+                            </Cell>
                         </td>
                     </tr>
                 </tbody>
             </Table>
-        </div>
+        </Container>
     );
 };
 
@@ -139,4 +120,5 @@ const StatButton = styled.button({
     fontSize: '20px',
 });
 
-const Cell = styled.td({ display: 'flex' });
+const Cell = styled.td({ display: 'flex', justifyContent: 'space-between' });
+const Container = styled.div({ flexGrow: 0.3 });

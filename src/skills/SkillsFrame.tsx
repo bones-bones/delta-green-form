@@ -6,15 +6,21 @@ import { SectionHeader } from '../components';
 import { NumericInput } from '../custom-sheet/numeric-input';
 import { skillsSetup } from './constants';
 import { actions } from './reducer';
-import { selectSkills } from './selectors';
+import { selectPointsToAllocate, selectSkills } from './selectors';
 
 export const SkillsFrame = () => {
     const skills = useSelector(selectSkills);
+    const pointsToAllocate = useSelector(selectPointsToAllocate);
     const dispatch = useDispatch();
 
     return (
         <>
             <SectionHeader>Skills</SectionHeader>
+            {pointsToAllocate != 0 && (
+                <PointsToAllocateSpan>
+                    remaining points to allocate: {pointsToAllocate}
+                </PointsToAllocateSpan>
+            )}
             <Table>
                 {Object.values(skills).map((entry) => {
                     return (
@@ -32,6 +38,7 @@ export const SkillsFrame = () => {
                             <NumericInput
                                 type="number"
                                 value={entry.value}
+                                disabled={pointsToAllocate === 0}
                                 onChange={({ target: { value } }) =>
                                     dispatch(
                                         actions.setSkill({
@@ -48,6 +55,8 @@ export const SkillsFrame = () => {
         </>
     );
 };
+
+const PointsToAllocateSpan = styled.span({ color: 'white' });
 
 const Table = styled.div({
     color: 'white',

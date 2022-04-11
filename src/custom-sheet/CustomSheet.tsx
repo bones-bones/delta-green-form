@@ -4,19 +4,18 @@ import React, { useState } from 'react';
 import { BondsFrame } from '../bonds';
 import { InventoryFrame } from '../inventory';
 import { Notifications } from '../notifications';
+import { PersonDataFrame } from '../person-data';
 import { SkillsFrame } from '../skills';
 import { DerivedFrame } from './DerivedFrame';
-import { Placard } from './Placard';
 import { StatFrame } from './StatFrame';
 import { Tab } from './Tab';
 
-const tabs = ['Stats', 'Bonds', 'Inventory'];
+const tabs = ['Stats', 'Bonds + Inventory', 'Events'];
 
 export const CustomSheet = () => {
     const [activeTab, setActiveTab] = useState(0);
     return (
         <Background>
-            <Placard />
             <Notifications />
             <Panel>
                 <Tabs>
@@ -41,15 +40,21 @@ export const CustomSheet = () => {
 const renderTab = (tabId: number) => {
     switch (tabId) {
         case 2: {
-            return <InventoryFrame />;
+            return <></>;
         }
         case 1: {
-            return <BondsFrame />;
+            return (
+                <>
+                    <InventoryFrame />
+                    <BondsFrame />
+                </>
+            );
         }
         case 0: {
             return (
                 <>
                     <TopFrame>
+                        <PersonDataFrame />
                         <StatFrame />
                         <DerivedFrame />
                     </TopFrame>
@@ -62,7 +67,7 @@ const renderTab = (tabId: number) => {
 
 const TopFrame = styled.div({
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
 });
 
 const Background = styled.div({

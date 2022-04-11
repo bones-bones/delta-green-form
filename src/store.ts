@@ -7,6 +7,7 @@ import { reducer as inventoryReducer } from './inventory';
 import { reducer as pointsReducer } from './points';
 import { reducer as notifications } from './notifications';
 import { reducer as network } from './rtc/reducer';
+import { reducer as personData } from './person-data/reducer';
 
 export const store = configureStore({
     reducer: combineReducers({
@@ -17,6 +18,7 @@ export const store = configureStore({
         points: pointsReducer,
         notifications,
         network,
+        personData,
     }),
 });
 
