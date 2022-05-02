@@ -16,7 +16,7 @@ export const SkillsFrame = () => {
     return (
         <>
             <SectionHeader>Skills</SectionHeader>
-            {pointsToAllocate != 0 && (
+            {pointsToAllocate !== 0 && (
                 <PointsToAllocateSpan>
                     remaining points to allocate: {pointsToAllocate}
                 </PointsToAllocateSpan>

@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
-import { ChangeEvent } from 'hoist-non-react-statics/node_modules/@types/react';
 
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionHeader } from '../components';
 import { actions, selectStats } from '../stats';
