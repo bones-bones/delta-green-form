@@ -9,7 +9,7 @@ export const DerivedFrame = () => {
     const { hp, sp, wp, bp } = useSelector(getPoints);
     const dispatch = useDispatch();
 
-    const isUnset = hp.max == 0;
+    const isUnset = hp.max === 0;
 
     return (
         <Container>
@@ -96,11 +96,9 @@ export const DerivedFrame = () => {
                     </tr>
                     <tr>
                         <td>Breaking Point</td>
-                        <td>
-                            <Cell>
-                                <NumberContainer>{bp}</NumberContainer>
-                            </Cell>
-                        </td>
+                        <Cell>
+                            <NumberContainer>{bp}</NumberContainer>
+                        </Cell>
                     </tr>
                 </tbody>
             </Table>

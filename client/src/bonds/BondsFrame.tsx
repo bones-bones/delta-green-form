@@ -106,7 +106,7 @@ export const BondsFrame = () => {
                                     setNewBond({
                                         ...newBond,
                                         value:
-                                            value != undefined
+                                            value !== undefined
                                                 ? parseInt(value || '0')
                                                 : value,
                                     });

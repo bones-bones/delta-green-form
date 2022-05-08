@@ -4,16 +4,14 @@ export const beginProjection = () => {
     return new Promise<{
         dataChannel: RTCDataChannel;
         peerConnection: RTCPeerConnection;
+        offer: RTCSessionDescription;
     }>((resolve) => {
         createHost().then(({ dataChannel, peerConnection }) => {
-            console.log(
+            resolve({
+                dataChannel,
                 peerConnection,
-                JSON.stringify(peerConnection.localDescription)
-            );
-            navigator.clipboard.writeText(
-                JSON.stringify(peerConnection.localDescription)
-            );
-            resolve({ dataChannel, peerConnection });
+                offer: peerConnection.localDescription!,
+            });
         });
     });
 };

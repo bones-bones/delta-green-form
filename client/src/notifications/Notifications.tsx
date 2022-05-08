@@ -13,8 +13,7 @@ export const Notifications = () => {
         ({ seen }) => !seen
     );
 
-    const [hostDescription, setHostDescrption] =
-        useState<RTCSessionDescriptionInit>();
+    const [hostDescription, setHostDescription] = useState<string>();
     useRTCGuest(hostDescription);
     const dataChannel = useSelector(getDataChannel);
 
@@ -47,14 +46,11 @@ export const Notifications = () => {
         <Container>
             <button
                 onClick={async () => {
-                    setHostDescrption(
-                        JSON.parse(
-                            (await navigator.clipboard.readText()).replaceAll(
-                                '\\\\',
-                                '\\'
-                            )
-                        )
-                    );
+                    const id = prompt('enter session id');
+                    await new Promise((resolve) => setTimeout(resolve, 3000));
+                    //    const info = await getSessionInfo(id!);
+                    console.log(id, '∆∆∆∆');
+                    setHostDescription(id!);
                 }}
             >
                 Join

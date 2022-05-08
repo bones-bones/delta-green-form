@@ -8,10 +8,11 @@ export const useRTCHost = () => {
     return {};
 };
 
-export const useRTCGuest = (offerDesc?: RTCSessionDescriptionInit) => {
+export const useRTCGuest = (sessionId?: string) => {
+    console.log(sessionId, '!!!');
     const dispatch = useDispatch();
-    if (offerDesc) {
-        createGuest(offerDesc).then((connection) => {
+    if (sessionId) {
+        createGuest(sessionId).then((connection) => {
             const existingOnDataChannel = connection.ondatachannel;
             connection.ondatachannel = (channelEvent) => {
                 dispatch(networkActions.setChannel(channelEvent.channel));

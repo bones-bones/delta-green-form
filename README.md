@@ -6,7 +6,7 @@
 `yarn start`
 Go to the host url: http://localhost:3000/host
 Open a new tab to http://localhost:3000
-From the host, click on Create Offer. An offer will be copied to your clipboard
+From the host, click on Create Offer
 Go to the guest tab, click on Join. The offer will be accepted and the guest response will be returned
 Go back to the host tab, click Accept Response
 Tada RTC!

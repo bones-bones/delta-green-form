@@ -8,7 +8,6 @@ export const createHost = async () =>
         dataChannel: RTCDataChannel;
     }>((resolve) => {
         const peerConn = createRTCPeerConnection();
-
         const dataChannel = peerConn.createDataChannel('projecting');
 
         dataChannel.onopen = () => {
@@ -16,12 +15,12 @@ export const createHost = async () =>
             dataChannel.send('this is from the host');
         };
 
-        dataChannel.onmessage = async (message: any) => {
-            console.log('!!', message);
+        dataChannel.onmessage = async ({ data }: any) => {
+            console.log('!!', data);
             const parsedMessage =
-                typeof message.data === 'string' && message.data.startsWith('{')
-                    ? JSON.parse(message.data)
-                    : message.data;
+                typeof data === 'string' && data.startsWith('{')
+                    ? JSON.parse(data)
+                    : data;
             const { description, candidate } = parsedMessage;
             if (description) {
                 await peerConn.setRemoteDescription(description);

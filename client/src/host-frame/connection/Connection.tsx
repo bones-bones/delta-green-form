@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { beginProjection } from '../../rtc';
+import { addHostOffer, createSession, pollForGuest } from './remoteSession';
 
 interface Props {
     registerConnection: ({
@@ -33,36 +34,32 @@ export const Connection = ({ registerConnection }: Props) => {
         <>
             <button
                 onClick={async () => {
-                    const { dataChannel, peerConnection } =
+                    const sessionId = await createSession();
+
+                    const { dataChannel, peerConnection, offer } =
                         await beginProjection();
+                    await addHostOffer({
+                        sessionId,
+                        offer: JSON.stringify(offer),
+                    });
                     setConnection(peerConnection);
                     setDataChannel(dataChannel);
+
+                    const resp = JSON.parse(await pollForGuest(sessionId));
+
+                    await peerConnection.setRemoteDescription(resp);
+                    if (dataChannel) {
+                        registerConnection({
+                            connection: peerConnection,
+                            channel: dataChannel,
+                            name,
+                        });
+                    }
                 }}
             >
                 Create Offer
             </button>
-            {connection && (
-                <button
-                    onClick={async () => {
-                        const resp = JSON.parse(
-                            (await navigator.clipboard.readText()).replaceAll(
-                                '\\\\',
-                                '\\'
-                            )
-                        );
-                        await connection.setRemoteDescription(resp);
-                        if (dataChannel) {
-                            registerConnection({
-                                connection,
-                                channel: dataChannel,
-                                name,
-                            });
-                        }
-                    }}
-                >
-                    Accept Response
-                </button>
-            )}
+
             <label htmlFor="name">Player name</label>
             <input
                 id="name"
