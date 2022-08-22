@@ -16,15 +16,15 @@ export const { actions, reducer } = createSlice({
         addBond: (state, { payload }: PayloadAction<Bond>) => {
             return [...state, payload];
         },
+        removeBond: (state, { payload }: PayloadAction<number>) => {
+            console.log(state.splice(payload, 1), payload);
+            state = state.slice(payload, 1);
+        },
         modifyBond: (state, { payload }: PayloadAction<Bond>) => {
             const index = state.findIndex((entry) => {
                 return entry.name == payload.name;
             });
-            console.log(
-                index,
-                state.map((e) => e),
-                payload.name
-            );
+
             if (index > -1) {
                 state[index] = payload;
             }

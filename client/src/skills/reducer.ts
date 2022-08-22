@@ -46,12 +46,15 @@ export const { actions, reducer } = createSlice({
                 payload: { name, value },
             }: PayloadAction<{ name: keyof typeof skillsSetup; value: number }>
         ) => {
-            const acceptableValue = Math.min(value, state.pointsToAllocate);
+            let newDifference = value - state.skills[name].value;
+            if (newDifference > state.pointsToAllocate) {
+                newDifference = state.pointsToAllocate;
+            }
 
-            const diff = state.skills[name].value - acceptableValue;
+            state.pointsToAllocate -= newDifference;
 
-            state.pointsToAllocate += diff;
-            state.skills[name].value = acceptableValue;
+            state.skills[name].value = state.skills[name].value +=
+                newDifference;
             return state;
         },
         completeScenario: (state) => {

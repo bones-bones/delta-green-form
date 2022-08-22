@@ -31,7 +31,12 @@ store.subscribe(() => {
     if (notificationRef == store.getState().notifications) {
         store
             .getState()
-            .network.channel?.send(JSON.stringify(store.getState().points));
+            .network.channel?.send(
+                JSON.stringify({
+                    derivedStats: store.getState().points,
+                    personData: store.getState().personData,
+                })
+            );
     }
     notificationRef = store.getState().notifications;
 });

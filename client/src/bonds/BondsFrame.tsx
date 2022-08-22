@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddRowButton, SectionHeader } from '../components';
+import { StyledButton } from '../components/AddRowButton';
 import { actions } from './reducer';
 import { selectBonds } from './selectors';
 import { Bond } from './types';
@@ -29,6 +30,7 @@ export const BondsFrame = () => {
                     <TableHeadItem>Name</TableHeadItem>
                     <TableHeadItem>Relationship Desc.</TableHeadItem>
                     <TableHeadItem>Value</TableHeadItem>
+                    <TableHeadItem>Delete</TableHeadItem>
                 </HeaderRow>
                 {Object.values(skills).map((entry) => {
                     return (
@@ -37,11 +39,11 @@ export const BondsFrame = () => {
                                 <Name
                                     stillInContact={entry.value > 0}
                                     value={entry.name}
-                                    onChange={({ target: { value } }) => {
+                                    onChange={({ target: { value: name } }) => {
                                         dispatch(
                                             actions.modifyBond({
                                                 ...entry,
-                                                name: value,
+                                                name,
                                             })
                                         );
                                     }}
@@ -73,6 +75,15 @@ export const BondsFrame = () => {
                                         );
                                     }}
                                 />
+                            </Cell>
+                            <Cell>
+                                <StyledButton
+                                    onClick={() => {
+                                        //dispatch(actions.removeItem(index));
+                                    }}
+                                >
+                                    remove row
+                                </StyledButton>
                             </Cell>
                         </Entry>
                     );
@@ -113,6 +124,11 @@ export const BondsFrame = () => {
                                 }}
                                 value={newBond.value}
                             />
+                        </Cell>
+                        <Cell>
+                            <StyledButton onClick={() => setNewBond(undefined)}>
+                                remove row
+                            </StyledButton>
                         </Cell>
                     </Entry>
                 )}

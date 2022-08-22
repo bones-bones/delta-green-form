@@ -18,7 +18,7 @@ export const HostFrame = () => {
     const [showRow, setShowRow] = useState<boolean>(true);
     const { setDataChannel, dataChannel } = useContext(DataChannelContext);
 
-    console.log(dataChannel, 'ççççÇÇ˜Í');
+    console.log(dataChannel, 'çççÇÇ˜Í');
     return (
         <>
             <label htmlFor="sendAll">Send Message to All</label>

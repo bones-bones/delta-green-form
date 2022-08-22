@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { PlayerViewComponent } from './PlayerViewComponent';
+import { PlayerDefinition } from './types';
 
 interface Props {
     channel: RTCDataChannel;
@@ -6,13 +8,13 @@ interface Props {
 }
 
 export const PlayerView = (props: Props) => {
-    const [playerData, setPlayerData] = useState<Record<string, any>>();
+    const [playerData, setPlayerData] = useState<PlayerDefinition>();
 
     props.channel.onmessage = ({ data }) => {
         setPlayerData(JSON.parse(data));
     };
 
-    return <>{JSON.stringify(playerData, null, '\t')}</>;
+    return <>{playerData && <PlayerViewComponent data={playerData} />}</>;
 };
 
 /**

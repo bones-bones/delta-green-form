@@ -39,14 +39,21 @@ export const SkillsFrame = () => {
                                 type="number"
                                 value={entry.value}
                                 disabled={pointsToAllocate === 0}
-                                onChange={({ target: { value } }) =>
-                                    dispatch(
+                                onChange={({ target: { value } }) => {
+                                    if (/^-?\d+$/.test(value)) {
+                                        dispatch(
+                                            actions.setSkill({
+                                                name: entry.name as keyof typeof skillsSetup,
+                                                value: parseInt(value),
+                                            })
+                                        );
+                                    } else {
                                         actions.setSkill({
                                             name: entry.name as keyof typeof skillsSetup,
-                                            value: parseInt(value),
-                                        })
-                                    )
-                                }
+                                            value: 0,
+                                        });
+                                    }
+                                }}
                             />
                         </SkillEntry>
                     );
