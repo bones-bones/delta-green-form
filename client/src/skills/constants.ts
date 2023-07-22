@@ -22,3 +22,31 @@ export const skillsSetup = {
     Survival: 10,
     Unnatural: 0,
 };
+
+// Strength
+// 1. Athletics
+// 2. Melee combat
+
+// Dexterity
+// 1. Crafting
+// 2. Slight of hand
+// 3. Ranged combat
+// 4. Drive
+// 5. Stealth
+// 6. Dodge
+
+// Intelligence
+// 1. Alertness
+// 2. Anthropology
+// 3. Psych
+// 4. Navigation
+// 5. Occult
+// 6. Medicine
+// 7. Psychology
+// 8. Unnatural
+
+// Charisma
+// 1. Human Intelligence
+// 2. Communications
+// 3. Bureaucracy
+// 4. Disguise
